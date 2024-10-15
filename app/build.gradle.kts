@@ -75,6 +75,16 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
 
+    // Camera X
+    implementation(libs.camera.core)
+    implementation(libs.camera.camera)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+    implementation(libs.camera.extensions)
+
+    // Icons
+    implementation(libs.androidx.material.icons.extended)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
