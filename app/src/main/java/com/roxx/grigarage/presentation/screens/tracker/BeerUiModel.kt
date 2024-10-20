@@ -1,6 +1,8 @@
-package com.roxx.grigarage.domain.model
+package com.roxx.grigarage.presentation.screens.tracker
 
-data class Beer(
+import androidx.compose.ui.graphics.ImageBitmap
+
+data class BeerUiModel(
     val name: String,
     val brand: String = "",
     val type: String = "",
@@ -9,7 +11,7 @@ data class Beer(
     val color: String = "",
     val rating: Double = 0.0,
     val notes: String = "",
-    val photoUri: String = "",
+    val photoUri: ImageBitmap,
     val dateAdded: Long = 0,
     val isFavorite: Boolean = false,
     val isWishlist: Boolean = false,

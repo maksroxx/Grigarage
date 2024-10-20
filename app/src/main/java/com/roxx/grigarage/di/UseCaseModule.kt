@@ -6,6 +6,7 @@ import com.roxx.grigarage.domain.preferences.Preferences
 import com.roxx.grigarage.domain.repository.BeerRepository
 import com.roxx.grigarage.domain.use_cases.BeersUseCases
 import com.roxx.grigarage.domain.use_cases.another.ConvertBase64ToImageBitmapUseCase
+import com.roxx.grigarage.domain.use_cases.another.ConvertBitmapToBase64UseCase
 import com.roxx.grigarage.domain.use_cases.another.FilterOutDigit
 import com.roxx.grigarage.domain.use_cases.another.FilterOutLetter
 import com.roxx.grigarage.domain.use_cases.another.TakePhotoUseCase
@@ -77,8 +78,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun BitmapToBase(): ConvertBase64ToImageBitmapUseCase {
-        return ConvertBase64ToImageBitmapUseCase()
+    fun BitmapToBase(): ConvertBitmapToBase64UseCase {
+        return ConvertBitmapToBase64UseCase()
     }
 
     @Provides

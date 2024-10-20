@@ -1,4 +1,4 @@
-package com.roxx.grigarage.presentation.onboarding.welcome
+package com.roxx.grigarage.presentation.screens.onboarding.welcome
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package com.roxx.grigarage.presentation.onboarding.name
+package com.roxx.grigarage.presentation.screens.onboarding.goal
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,16 +19,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.roxx.grigarage.presentation.onboarding.components.ActionButton
-import com.roxx.grigarage.presentation.onboarding.components.UnitTextField
+import com.roxx.grigarage.presentation.screens.onboarding.components.ActionButton
+import com.roxx.grigarage.presentation.screens.onboarding.components.UnitTextField
 import com.roxx.grigarage.presentation.util.UiEvent
 import com.roxx.grigarage.ui.theme.LocalSpacing
 
 @Composable
-fun NameScreen(
+fun GoalScreen(
     snackBarHostState: SnackbarHostState,
     onNavigate: (UiEvent.Navigate) -> Unit,
-    viewModel: NameScreenViewModel = hiltViewModel()
+    viewModel: GoalViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
@@ -56,13 +56,13 @@ fun NameScreen(
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Whats your name?",
+                text = "Whats your beer goal for week?",
                 style = MaterialTheme.typography.displaySmall
             )
             Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
             UnitTextField(
-                value = viewModel.name,
-                onValueChange = viewModel::onNameEnter,
+                value = viewModel.goal,
+                onValueChange = viewModel::onGoalEnter,
                 unit = "",
                 keyboardType = KeyboardType.Text
             )
