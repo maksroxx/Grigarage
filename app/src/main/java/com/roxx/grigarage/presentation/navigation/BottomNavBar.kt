@@ -41,28 +41,20 @@ fun BottomNavBar(navController: NavHostController) {
     val shouldShowBottomBar = screens.any { it.route == currentDestination?.route }
 
     if (shouldShowBottomBar) {
-        Box(
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.Transparent),
-            contentAlignment = Alignment.Center
+                .background(Color.Gray)
+                .padding(8.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Color.Green)
-                    .padding(8.dp)
-                    .fillMaxWidth(0.7f),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                screens.forEach { screen ->
-                    AddItem(
-                        screen,
-                        currentDestination,
-                        navController
-                    )
-                }
+            screens.forEach { screen ->
+                AddItem(
+                    screen,
+                    currentDestination,
+                    navController
+                )
             }
         }
     }

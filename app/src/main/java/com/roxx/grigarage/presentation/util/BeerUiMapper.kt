@@ -1,9 +1,28 @@
-package com.roxx.grigarage.data.mapper
+package com.roxx.grigarage.presentation.util
 
-import com.roxx.grigarage.data.local.model.BeerEntity
+import androidx.compose.ui.graphics.ImageBitmap
 import com.roxx.grigarage.domain.model.Beer
+import com.roxx.grigarage.presentation.screens.tracker.BeerUiModel
 
-fun BeerEntity.toDomainModel(): Beer {
+fun Beer.toBeerUiModel(bitmap: ImageBitmap): BeerUiModel {
+    return BeerUiModel(
+        id = id,
+        name = name,
+        brand = brand,
+        type = type,
+        alcoholPercentage = alcoholPercentage,
+        volume = volume,
+        color = color,
+        rating = rating,
+        notes = notes,
+        photoUri = bitmap,
+        dateAdded = formatDate(dateAdded),
+        isFavorite = isFavorite,
+        drinkCount = drinkCount
+    )
+}
+
+fun BeerUiModel.toBeer(photo: String): Beer {
     return Beer(
         id = id,
         name = name,
@@ -14,27 +33,9 @@ fun BeerEntity.toDomainModel(): Beer {
         color = color,
         rating = rating,
         notes = notes,
-        photoUri = photoUri,
+        photoUri = photo,
+        dateAdded = parseDateToTimestamp(dateAdded),
         isFavorite = isFavorite,
-        drinkCount = drinkCount,
-        dateAdded = dateAdded
-    )
-}
-
-fun Beer.toBeerEntity(): BeerEntity {
-    return BeerEntity(
-        id = id ?: 0,
-        name = name,
-        brand = brand,
-        type = type,
-        alcoholPercentage = alcoholPercentage,
-        volume = volume,
-        color = color,
-        rating = rating,
-        notes = notes,
-        photoUri = photoUri,
-        isFavorite = isFavorite,
-        drinkCount = drinkCount,
-        dateAdded = dateAdded
+        drinkCount = drinkCount
     )
 }

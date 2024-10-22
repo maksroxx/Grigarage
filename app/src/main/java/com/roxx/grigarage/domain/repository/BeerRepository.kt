@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface BeerRepository {
 
-    suspend fun insertOrUpdateBeer(beer: Beer)
+    suspend fun insertBeer(beer: Beer)
+    suspend fun updateBeer(beer: Beer)
     suspend fun deleteBeer(beer: Beer)
     suspend fun getBeerById(beerId: Int): Beer?
     suspend fun incrementDrinkCount(beerId: Int)
@@ -18,5 +19,4 @@ interface BeerRepository {
     fun searchPagedBeers(query: String): Flow<PagingData<Beer>>
     fun getPagedBeers(): Flow<PagingData<Beer>>
     fun getPagedFavoriteBeers(): Flow<PagingData<Beer>>
-    fun getPagedWishlistBeers(): Flow<PagingData<Beer>>
 }

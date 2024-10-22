@@ -1,5 +1,6 @@
 package com.roxx.grigarage.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -16,8 +17,17 @@ import javax.inject.Inject
 class BeerRepositoryImpl @Inject constructor(
     private val db: BeerDao
 ): BeerRepository {
-    override suspend fun insertOrUpdateBeer(beer: Beer) {
+    override suspend fun insertBeer(beer: Beer) {
         db.insertBeer(beer.toBeerEntity())
+    }
+
+    override suspend fun updateBeer(beer: Beer) {
+        Log.d("Update", "rep ${beer.id} ${beer.isFavorite}")
+        val updatedFavoriteStatus = !beer.isFavorite
+        val updatedBeerEntity = beer.toBeerEntity().copy(isFavorite = updatedFavoriteStatus)
+        Log.d("Update", "rep ${updatedBeerEntity.id} ${updatedBeerEntity.isFavorite}")
+        db.updateBeer(updatedBeerEntity)
+        Log.d("Update", "Updated favorite status: ${updatedFavoriteStatus}")
     }
 
     override suspend fun deleteBeer(beer: Beer) {
@@ -50,7 +60,7 @@ class BeerRepositoryImpl @Inject constructor(
 
     override fun searchPagedBeers(query: String): Flow<PagingData<Beer>> {
         return Pager(
-            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            config = PagingConfig(pageSize = 10, enablePlaceholders = true),
             pagingSourceFactory = { db.searchPagedBeers(query) }
         ).flow.map { pagingData ->
             pagingData.map { beerEntity ->
@@ -61,7 +71,7 @@ class BeerRepositoryImpl @Inject constructor(
 
     override fun getPagedBeers(): Flow<PagingData<Beer>> {
         return Pager(
-            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            config = PagingConfig(pageSize = 10, enablePlaceholders = true),
             pagingSourceFactory = { db.getPagedBeers() }
         ).flow.map { pagingData ->
             pagingData.map { beerEntity ->
@@ -72,19 +82,8 @@ class BeerRepositoryImpl @Inject constructor(
 
     override fun getPagedFavoriteBeers(): Flow<PagingData<Beer>> {
         return Pager(
-            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            config = PagingConfig(pageSize = 10, enablePlaceholders = true),
             pagingSourceFactory = { db.getPagedFavoriteBeers() }
-        ).flow.map { pagingData ->
-            pagingData.map { beerEntity ->
-                beerEntity.toDomainModel()
-            }
-        }
-    }
-
-    override fun getPagedWishlistBeers(): Flow<PagingData<Beer>> {
-        return Pager(
-            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-            pagingSourceFactory = { db.getPagedWishlistBeers() }
         ).flow.map { pagingData ->
             pagingData.map { beerEntity ->
                 beerEntity.toDomainModel()

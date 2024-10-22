@@ -17,10 +17,10 @@ import com.roxx.grigarage.domain.use_cases.beers.GetAllBeersUseCase
 import com.roxx.grigarage.domain.use_cases.beers.GetBeerByIdUseCase
 import com.roxx.grigarage.domain.use_cases.beers.GetLikedBeerUseCase
 import com.roxx.grigarage.domain.use_cases.beers.GetMostPopularBeerUseCase
-import com.roxx.grigarage.domain.use_cases.beers.GetWishListUseCase
 import com.roxx.grigarage.domain.use_cases.beers.IncrementDrinkCountUseCase
-import com.roxx.grigarage.domain.use_cases.beers.InsertOrUpdateBeerUseCase
+import com.roxx.grigarage.domain.use_cases.beers.InsertBeerUseCase
 import com.roxx.grigarage.domain.use_cases.beers.SearchBeersUseCase
+import com.roxx.grigarage.domain.use_cases.beers.UpdateBeerUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,16 +46,19 @@ object UseCaseModule {
     fun provideBeerUseCases(beerRepository: BeerRepository): BeersUseCases {
         return BeersUseCases(
             decrementDrinkCountUseCase = DecrementDrinkCountUseCase(beerRepository),
-            insertOrUpdateBeerUseCase = InsertOrUpdateBeerUseCase(beerRepository),
             deleteBeerUseCase = DeleteBeerUseCase(beerRepository),
             incrementDrinkCountUseCase = IncrementDrinkCountUseCase(beerRepository),
             searchBeersUseCase = SearchBeersUseCase(beerRepository),
             getBeerByIdUseCase = GetBeerByIdUseCase(beerRepository),
             getMostPopularBeerUseCase = GetMostPopularBeerUseCase(beerRepository),
-            getLikedBeerUseCase = GetLikedBeerUseCase(beerRepository),
-            getAllBeersUseCase = GetAllBeersUseCase(beerRepository),
-            getWishListUseCase = GetWishListUseCase(beerRepository)
+            getLikedBeerUseCase = GetLikedBeerUseCase(beerRepository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun providePagedBeers(beerRepository: BeerRepository): GetAllBeersUseCase {
+        return GetAllBeersUseCase(beerRepository)
     }
 
     @Provides
@@ -72,13 +75,13 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun BaseToImage(): ConvertBase64ToImageBitmapUseCase {
+    fun baseToImage(): ConvertBase64ToImageBitmapUseCase {
         return ConvertBase64ToImageBitmapUseCase()
     }
 
     @Provides
     @Singleton
-    fun BitmapToBase(): ConvertBitmapToBase64UseCase {
+    fun bitmapToBase(): ConvertBitmapToBase64UseCase {
         return ConvertBitmapToBase64UseCase()
     }
 
@@ -89,5 +92,17 @@ object UseCaseModule {
         @ApplicationContext context: Context
     ): TakePhotoUseCase {
         return TakePhotoUseCase(cameraController, context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideInsertUpdate(beerRepository: BeerRepository): InsertBeerUseCase {
+        return InsertBeerUseCase(beerRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdate(beerRepository: BeerRepository): UpdateBeerUseCase {
+        return UpdateBeerUseCase(beerRepository)
     }
 }

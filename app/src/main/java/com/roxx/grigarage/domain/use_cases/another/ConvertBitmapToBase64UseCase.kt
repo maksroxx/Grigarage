@@ -8,8 +8,8 @@ class ConvertBitmapToBase64UseCase {
 
     operator fun invoke(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        // Сжатие Bitmap в формат JPEG с качеством 100%
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        // Сжатие Bitmap в формат JPEG с качеством 10%
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         // Преобразование массива байтов в Base64 строку
         return Base64.encodeToString(byteArray, Base64.DEFAULT)

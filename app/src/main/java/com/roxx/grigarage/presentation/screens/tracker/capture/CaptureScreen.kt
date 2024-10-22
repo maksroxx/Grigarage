@@ -49,6 +49,7 @@ fun CaptureScreen(
     controller.value.bindToLifecycle(lifecycleOwner)
     val context = LocalContext.current
     val openWindow = remember { mutableStateOf(false) }
+    val addWindow = remember { mutableStateOf(false) }
     val bitmap by viewModel.bitmap.collectAsState(null)
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -89,13 +90,22 @@ fun CaptureScreen(
             TakePhotoPreviewDialog(
                 photoBitmap = it,
                 onConfirm = {
-                    viewModel.onNextClick()
+                    openWindow.value = false
+                    addWindow.value = true
                 },
                 onDismiss = {
                     openWindow.value = false
+                    viewModel.onDismiss()
                 }
             )
         }
+    }
+
+    if (addWindow.value) {
+        BeerAddDialog(
+            onConfirm = { viewModel.onClick() },
+            onDismiss = { addWindow.value = false}
+        )
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -106,7 +116,7 @@ fun CaptureScreen(
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
-            color = Color.Black
+            color = Color.White
         )
         IconButton(
             modifier = Modifier

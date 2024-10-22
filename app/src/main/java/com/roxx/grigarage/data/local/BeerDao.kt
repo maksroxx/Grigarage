@@ -16,6 +16,10 @@ interface BeerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBeer(beer: BeerEntity)
 
+    // обновление
+    @Update
+    suspend fun updateBeer(beer: BeerEntity)
+
     // Удаление пива
     @Delete
     suspend fun deleteBeer(beer: BeerEntity)
@@ -49,14 +53,10 @@ interface BeerDao {
     fun searchPagedBeers(query: String): PagingSource<Int, BeerEntity>
 
     // Получение постраничного списка всех пив
-    @Query("SELECT * FROM beers ORDER BY dateAdded DESC")
+    @Query("SELECT * FROM beers")
     fun getPagedBeers(): PagingSource<Int, BeerEntity>
 
     // Получение постраничного списка любимых пив
     @Query("SELECT * FROM beers WHERE isFavorite = 1 ORDER BY dateAdded DESC")
     fun getPagedFavoriteBeers(): PagingSource<Int, BeerEntity>
-
-    // Получение постраничного списка желаемых пив
-    @Query("SELECT * FROM beers WHERE isWishlist = 1 ORDER BY dateAdded DESC")
-    fun getPagedWishlistBeers(): PagingSource<Int, BeerEntity>
 }

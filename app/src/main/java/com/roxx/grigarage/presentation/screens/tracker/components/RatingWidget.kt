@@ -29,7 +29,7 @@ import com.roxx.grigarage.R
 @Composable
 fun RatingWidget(
     modifier: Modifier,
-    rating: Double,
+    rating: Float,
     scaleFactor: Float = 3f,
     spaceBetween: Dp = 6.dp
 ) {
@@ -165,7 +165,7 @@ fun EmptyStar(
 }
 
 @Composable
-fun calculateStars(rating: Double): Map<String, Int> {
+fun calculateStars(rating: Float): Map<String, Int> {
     val maxStars by remember { mutableStateOf(5) }
     var filledStars by remember { mutableStateOf(0) }
     var halfFilledStars by remember { mutableStateOf(0) }
@@ -245,5 +245,5 @@ private fun EmptyStarPreview() {
 @Preview
 @Composable
 private fun RatingWidgetPreview() {
-    RatingWidget(modifier = Modifier, rating = 0.3)
+    RatingWidget(modifier = Modifier, rating = 0.3f)
 }
