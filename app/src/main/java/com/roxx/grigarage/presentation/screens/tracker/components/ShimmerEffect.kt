@@ -8,7 +8,10 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -50,4 +53,14 @@ fun ShimmerEffect(
             .fillMaxSize()
             .background(brush)
     )
+}
+
+@Composable
+fun ShimmerLoadingEffect() {
+    Column {
+        repeat(6) {
+            ShimmerBeerCard()
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
 }

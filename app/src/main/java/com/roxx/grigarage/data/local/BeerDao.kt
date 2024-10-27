@@ -33,7 +33,7 @@ interface BeerDao {
     suspend fun incrementDrinkCount(beerId: Int)
 
     // Уменьшение счетчика выпитого пива на 1
-    @Query("UPDATE beers SET drinkCount = drinkCount - 1 WHERE id = :beerId")
+    @Query("UPDATE beers SET drinkCount = CASE WHEN drinkCount > 1 THEN drinkCount - 1 ELSE drinkCount END WHERE id = :beerId")
     suspend fun decrementDrinkCount(beerId: Int)
 
     // Получение кол-ва выпитых бутылок
@@ -41,7 +41,7 @@ interface BeerDao {
     suspend fun getTotalBottleCount(): Int?
 
     // Получение общего количество пива
-    @Query("SELECT COUNT(id) FROM beers WHERE drinkCount > 0")
+    @Query("SELECT COUNT(id) FROM beers")
     suspend fun getTotalBeerCount(): Int?
 
     // Получение самого популярного пива по количеству выпитого
@@ -49,7 +49,7 @@ interface BeerDao {
     suspend fun getMostPopularBeer(): BeerEntity?
 
     // Поиск пива по названию или бренду
-    @Query("SELECT * FROM beers WHERE name LIKE :query OR brand LIKE :query ORDER BY dateAdded DESC")
+    @Query("SELECT * FROM beers WHERE LOWER(name) LIKE :query OR LOWER(brand) LIKE :query")
     fun searchPagedBeers(query: String): PagingSource<Int, BeerEntity>
 
     // Получение постраничного списка всех пив

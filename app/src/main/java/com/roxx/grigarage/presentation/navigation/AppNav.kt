@@ -17,6 +17,8 @@ import com.roxx.grigarage.presentation.screens.onboarding.name.NameScreen
 import com.roxx.grigarage.presentation.screens.onboarding.welcome.WelcomeScreen
 import com.roxx.grigarage.presentation.screens.tracker.capture.CaptureScreen
 import com.roxx.grigarage.presentation.screens.tracker.main.MainScreen
+import com.roxx.grigarage.presentation.screens.tracker.profile.ProfileScreen
+import com.roxx.grigarage.presentation.screens.tracker.search.SearchScreen
 
 @Composable
 fun AppNav() {
@@ -72,13 +74,14 @@ fun AppNav() {
                 composable(
                     route = Route.SEARCH
                 ) {
-
+                    SearchScreen(
+                        navController::navigate
+                    )
                 }
                 composable(Route.PROFILE) {
-
-                }
-                composable(Route.WISH) {
-
+                    ProfileScreen(
+                        navController::navigate
+                    )
                 }
                 composable(Route.FAVORITE) {
 

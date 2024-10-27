@@ -13,6 +13,7 @@ class UserProfileUseCase(
         val totalBeerCount = beerRepository.getTotalBeerCount() ?: 0
         val totalBottleCount = beerRepository.getTotalBottleCount() ?: 0
         val mostPopularBeer = beerRepository.getMostPopularBeer()?.name ?: "Unknown"
+        val weeklyBottleCount = preferences.getCurrentWeekBeerCount()
 
         preferences.setTotalBeerCount(totalBeerCount)
         preferences.setTotalBottleCount(totalBottleCount)
@@ -23,7 +24,7 @@ class UserProfileUseCase(
             totalBeerCount = preferences.getTotalBeerCount(),
             totalBottleCount = preferences.getTotalBottleCount(),
             weeklyGoal = preferences.getWeeklyGoal(),
-            currentWeekBeerCount = preferences.getCurrentWeekBeerCount(),
+            currentWeekBeerCount = if (weeklyBottleCount < 0) 0 else weeklyBottleCount,
             mostPopularBeer = preferences.getMostPopularBeer()
         )
     }

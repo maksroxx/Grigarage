@@ -22,12 +22,10 @@ class BeerRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateBeer(beer: Beer) {
-        Log.d("Update", "rep ${beer.id} ${beer.isFavorite}")
         val updatedFavoriteStatus = !beer.isFavorite
         val updatedBeerEntity = beer.toBeerEntity().copy(isFavorite = updatedFavoriteStatus)
-        Log.d("Update", "rep ${updatedBeerEntity.id} ${updatedBeerEntity.isFavorite}")
         db.updateBeer(updatedBeerEntity)
-        Log.d("Update", "Updated favorite status: ${updatedFavoriteStatus}")
+        Log.d("Update", "Updated favorite status for ${updatedBeerEntity.id}: ${updatedFavoriteStatus}")
     }
 
     override suspend fun deleteBeer(beer: Beer) {
@@ -61,9 +59,10 @@ class BeerRepositoryImpl @Inject constructor(
     override fun searchPagedBeers(query: String): Flow<PagingData<Beer>> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = true),
-            pagingSourceFactory = { db.searchPagedBeers(query) }
+            pagingSourceFactory = { db.searchPagedBeers(query.lowercase()) }
         ).flow.map { pagingData ->
             pagingData.map { beerEntity ->
+                Log.d("Search", "search: ${beerEntity.id}")
                 beerEntity.toDomainModel()
             }
         }

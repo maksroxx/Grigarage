@@ -1,6 +1,5 @@
 package com.roxx.grigarage.presentation.screens.tracker.main
 
-import android.util.Log
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -63,13 +62,7 @@ class MainViewModel @Inject constructor(
 
     fun onBeerLiked(beer: BeerUiModel) {
         viewModelScope.launch {
-            // Log.d("Update", "${beer.id} ${beer.isFavorite}")
             updateBeerUseCase(beer.toBeer(imageToString(beer.photoUri.asAndroidBitmap())))
-//            Log.d(
-//                "Update", "mvm ${beer.toBeer(imageToString(beer.photoUri.asAndroidBitmap())).id} ${
-//                    beer.toBeer(imageToString(beer.photoUri.asAndroidBitmap())).isFavorite
-//                }"
-//            )
         }
     }
 }

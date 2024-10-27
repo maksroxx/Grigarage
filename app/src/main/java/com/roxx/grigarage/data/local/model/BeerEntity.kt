@@ -17,5 +17,5 @@ data class BeerEntity(
     val photoUri: String = "",
     val dateAdded: Long,
     val isFavorite: Boolean = false,
-    val drinkCount: Int = 0
+    val drinkCount: Int = 1
 )

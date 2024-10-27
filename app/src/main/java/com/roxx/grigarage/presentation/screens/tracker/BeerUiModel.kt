@@ -15,5 +15,5 @@ data class BeerUiModel(
     val photoUri: ImageBitmap,
     val dateAdded: String,
     val isFavorite: Boolean = false,
-    val drinkCount: Int = 0
+    val drinkCount: Int = 1
 )

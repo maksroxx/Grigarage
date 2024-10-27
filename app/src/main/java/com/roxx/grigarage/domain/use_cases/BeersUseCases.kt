@@ -16,6 +16,5 @@ data class BeersUseCases(
     val getMostPopularBeerUseCase: GetMostPopularBeerUseCase,
 
     // paging data
-    val searchBeersUseCase: SearchBeersUseCase,
     val getLikedBeerUseCase: GetLikedBeerUseCase
 )

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxx.grigarage.domain.preferences.Preferences
 import com.roxx.grigarage.domain.use_cases.another.FilterOutDigit
+import com.roxx.grigarage.domain.use_cases.another.SetWeeklyGoalUseCase
 import com.roxx.grigarage.presentation.navigation.Route
 import com.roxx.grigarage.presentation.util.UiEvent
 import com.roxx.grigarage.presentation.util.UiText
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GoalViewModel @Inject constructor(
-    private val preferences: Preferences,
+    private val setWeeklyGoalUseCase: SetWeeklyGoalUseCase,
     private val filterOutDigit: FilterOutDigit
 ) : ViewModel() {
     var goal by mutableStateOf("10")
@@ -41,7 +42,7 @@ class GoalViewModel @Inject constructor(
                 )
                 return@launch
             }
-            preferences.setWeeklyGoal(goalNumber)
+            setWeeklyGoalUseCase(goalNumber)
             _uiEvent.send(UiEvent.Navigate(Route.MAIN))
         }
     }

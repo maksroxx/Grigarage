@@ -9,6 +9,7 @@ import com.roxx.grigarage.domain.use_cases.another.ConvertBase64ToImageBitmapUse
 import com.roxx.grigarage.domain.use_cases.another.ConvertBitmapToBase64UseCase
 import com.roxx.grigarage.domain.use_cases.another.FilterOutDigit
 import com.roxx.grigarage.domain.use_cases.another.FilterOutLetter
+import com.roxx.grigarage.domain.use_cases.another.SetWeeklyGoalUseCase
 import com.roxx.grigarage.domain.use_cases.another.TakePhotoUseCase
 import com.roxx.grigarage.domain.use_cases.another.UserProfileUseCase
 import com.roxx.grigarage.domain.use_cases.beers.DecrementDrinkCountUseCase
@@ -43,12 +44,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideBeerUseCases(beerRepository: BeerRepository): BeersUseCases {
+    fun provideBeerUseCases(beerRepository: BeerRepository, preferences: Preferences): BeersUseCases {
         return BeersUseCases(
-            decrementDrinkCountUseCase = DecrementDrinkCountUseCase(beerRepository),
+            decrementDrinkCountUseCase = DecrementDrinkCountUseCase(beerRepository, preferences),
             deleteBeerUseCase = DeleteBeerUseCase(beerRepository),
-            incrementDrinkCountUseCase = IncrementDrinkCountUseCase(beerRepository),
-            searchBeersUseCase = SearchBeersUseCase(beerRepository),
+            incrementDrinkCountUseCase = IncrementDrinkCountUseCase(beerRepository, preferences),
             getBeerByIdUseCase = GetBeerByIdUseCase(beerRepository),
             getMostPopularBeerUseCase = GetMostPopularBeerUseCase(beerRepository),
             getLikedBeerUseCase = GetLikedBeerUseCase(beerRepository)
@@ -96,13 +96,25 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideInsertUpdate(beerRepository: BeerRepository): InsertBeerUseCase {
-        return InsertBeerUseCase(beerRepository)
+    fun provideInsertUpdate(beerRepository: BeerRepository, preferences: Preferences): InsertBeerUseCase {
+        return InsertBeerUseCase(beerRepository, preferences)
     }
 
     @Provides
     @Singleton
     fun provideUpdate(beerRepository: BeerRepository): UpdateBeerUseCase {
         return UpdateBeerUseCase(beerRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearch(beerRepository: BeerRepository): SearchBeersUseCase {
+        return SearchBeersUseCase(beerRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGoalSet(preferences: Preferences): SetWeeklyGoalUseCase {
+        return SetWeeklyGoalUseCase(preferences)
     }
 }
