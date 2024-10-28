@@ -23,7 +23,7 @@ fun BeerEntity.toDomainModel(): Beer {
 
 fun Beer.toBeerEntity(): BeerEntity {
     return BeerEntity(
-        id = id ?: 0,
+        id = id,
         name = name,
         brand = brand,
         type = type,

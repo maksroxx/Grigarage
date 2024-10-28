@@ -16,6 +16,7 @@ import com.roxx.grigarage.presentation.screens.onboarding.info.InfoScreen
 import com.roxx.grigarage.presentation.screens.onboarding.name.NameScreen
 import com.roxx.grigarage.presentation.screens.onboarding.welcome.WelcomeScreen
 import com.roxx.grigarage.presentation.screens.tracker.capture.CaptureScreen
+import com.roxx.grigarage.presentation.screens.tracker.favorite.FavoriteScreen
 import com.roxx.grigarage.presentation.screens.tracker.main.MainScreen
 import com.roxx.grigarage.presentation.screens.tracker.profile.ProfileScreen
 import com.roxx.grigarage.presentation.screens.tracker.search.SearchScreen
@@ -84,7 +85,9 @@ fun AppNav() {
                     )
                 }
                 composable(Route.FAVORITE) {
-
+                    FavoriteScreen(
+                        navController::navigate
+                    )
                 }
             }
         }

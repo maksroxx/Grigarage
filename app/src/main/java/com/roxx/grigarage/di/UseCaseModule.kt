@@ -17,7 +17,6 @@ import com.roxx.grigarage.domain.use_cases.beers.DeleteBeerUseCase
 import com.roxx.grigarage.domain.use_cases.beers.GetAllBeersUseCase
 import com.roxx.grigarage.domain.use_cases.beers.GetBeerByIdUseCase
 import com.roxx.grigarage.domain.use_cases.beers.GetLikedBeerUseCase
-import com.roxx.grigarage.domain.use_cases.beers.GetMostPopularBeerUseCase
 import com.roxx.grigarage.domain.use_cases.beers.IncrementDrinkCountUseCase
 import com.roxx.grigarage.domain.use_cases.beers.InsertBeerUseCase
 import com.roxx.grigarage.domain.use_cases.beers.SearchBeersUseCase
@@ -49,9 +48,7 @@ object UseCaseModule {
             decrementDrinkCountUseCase = DecrementDrinkCountUseCase(beerRepository, preferences),
             deleteBeerUseCase = DeleteBeerUseCase(beerRepository),
             incrementDrinkCountUseCase = IncrementDrinkCountUseCase(beerRepository, preferences),
-            getBeerByIdUseCase = GetBeerByIdUseCase(beerRepository),
-            getMostPopularBeerUseCase = GetMostPopularBeerUseCase(beerRepository),
-            getLikedBeerUseCase = GetLikedBeerUseCase(beerRepository)
+            getBeerByIdUseCase = GetBeerByIdUseCase(beerRepository)
         )
     }
 
@@ -116,5 +113,11 @@ object UseCaseModule {
     @Singleton
     fun provideGoalSet(preferences: Preferences): SetWeeklyGoalUseCase {
         return SetWeeklyGoalUseCase(preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLikedBeers(beerRepository: BeerRepository): GetLikedBeerUseCase {
+        return GetLikedBeerUseCase(beerRepository)
     }
 }

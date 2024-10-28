@@ -1,4 +1,4 @@
-package com.roxx.grigarage.presentation.screens.tracker.main
+package com.roxx.grigarage.presentation.screens.tracker.favorite
 
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.lifecycle.ViewModel
@@ -6,10 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.roxx.grigarage.domain.preferences.Preferences
 import com.roxx.grigarage.domain.use_cases.another.ConvertBase64ToImageBitmapUseCase
 import com.roxx.grigarage.domain.use_cases.another.ConvertBitmapToBase64UseCase
-import com.roxx.grigarage.domain.use_cases.beers.GetAllBeersUseCase
+import com.roxx.grigarage.domain.use_cases.beers.GetLikedBeerUseCase
 import com.roxx.grigarage.domain.use_cases.beers.UpdateBeerUseCase
 import com.roxx.grigarage.presentation.navigation.Route
 import com.roxx.grigarage.presentation.screens.tracker.BeerUiModel
@@ -26,9 +25,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    preferences: Preferences,
-    private val getAllBeersUseCase: GetAllBeersUseCase,
+class FavoriteViewModel @Inject constructor(
+    private val getLikedBeerUseCase: GetLikedBeerUseCase,
     private val updateBeerUseCase: UpdateBeerUseCase,
     private val baseToBitmap: ConvertBase64ToImageBitmapUseCase,
     private val imageToString: ConvertBitmapToBase64UseCase
@@ -36,27 +34,36 @@ class MainViewModel @Inject constructor(
     private val _beers = MutableStateFlow<PagingData<BeerUiModel>>(PagingData.empty())
     val beers: StateFlow<PagingData<BeerUiModel>> = _beers
 
-    init {
-        preferences.saveShouldShowOnboarding(false)
-
-        viewModelScope.launch {
-            getAllBeersUseCase.invoke()
-                .cachedIn(viewModelScope)
-                .collectLatest { pagingData ->
-                _beers.value = pagingData.map { beer ->
-                    beer.toBeerUiModel(baseToBitmap(beer.photoUri))
-                }
-            }
-        }
-    }
-
-
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
+    init {
+        viewModelScope.launch {
+            getLikedBeerUseCase()
+                .cachedIn(viewModelScope)
+                .collectLatest { pagingData ->
+                    _beers.value = pagingData.map { beer ->
+                        beer.toBeerUiModel(baseToBitmap(beer.photoUri))
+                    }
+                }
+        }
+    }
 
     fun onBeerClicked() {
         viewModelScope.launch {
             _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
+        }
+    }
+
+    fun onBackArrowClicked() {
+        viewModelScope.launch {
+            _uiEvent.send(UiEvent.Navigate(Route.PROFILE))
+        }
+    }
+
+    fun onButtonClick() {
+        viewModelScope.launch {
+            _uiEvent.send(UiEvent.Navigate(Route.MAIN))
         }
     }
 
