@@ -12,7 +12,7 @@ import com.roxx.grigarage.data.local.model.BeerEntity
 @Dao
 interface BeerDao {
 
-    // Вставка или обновление информации о пиве
+    // Вставка пива
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBeer(beer: BeerEntity)
 

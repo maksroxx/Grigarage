@@ -1,4 +1,4 @@
-package com.roxx.grigarage.presentation.screens.onboarding.components
+package com.roxx.grigarage.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape

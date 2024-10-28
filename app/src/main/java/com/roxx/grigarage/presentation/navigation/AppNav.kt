@@ -11,11 +11,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.layout.padding
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.roxx.grigarage.presentation.screens.onboarding.goal.GoalScreen
 import com.roxx.grigarage.presentation.screens.onboarding.info.InfoScreen
 import com.roxx.grigarage.presentation.screens.onboarding.name.NameScreen
 import com.roxx.grigarage.presentation.screens.onboarding.welcome.WelcomeScreen
 import com.roxx.grigarage.presentation.screens.tracker.capture.CaptureScreen
+import com.roxx.grigarage.presentation.screens.tracker.detail.DetailScreen
 import com.roxx.grigarage.presentation.screens.tracker.favorite.FavoriteScreen
 import com.roxx.grigarage.presentation.screens.tracker.main.MainScreen
 import com.roxx.grigarage.presentation.screens.tracker.profile.ProfileScreen
@@ -63,8 +66,18 @@ fun AppNav() {
                         navController::navigate
                     )
                 }
-                composable(Route.DETAIL) {
-
+                composable(
+                    route = Route.DETAIL + "/{id}",
+                    arguments = listOf(
+                        navArgument("id") {
+                            type = NavType.IntType
+                        }
+                    )
+                ) {
+                    DetailScreen(
+                        navController::navigate,
+                        id = id
+                    )
                 }
                 composable(Route.CAPTURE) {
                     CaptureScreen(

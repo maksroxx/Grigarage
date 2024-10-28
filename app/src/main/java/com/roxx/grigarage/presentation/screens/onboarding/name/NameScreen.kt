@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.roxx.grigarage.presentation.screens.onboarding.components.ActionButton
+import com.roxx.grigarage.presentation.components.ActionButton
 import com.roxx.grigarage.presentation.screens.onboarding.components.UnitTextField
 import com.roxx.grigarage.presentation.util.UiEvent
 import com.roxx.grigarage.ui.theme.LocalSpacing

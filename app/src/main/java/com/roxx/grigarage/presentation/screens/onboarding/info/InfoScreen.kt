@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxx.grigarage.presentation.navigation.Route
-import com.roxx.grigarage.presentation.screens.onboarding.components.ActionButton
+import com.roxx.grigarage.presentation.components.ActionButton
 import com.roxx.grigarage.presentation.util.UiEvent
 import com.roxx.grigarage.ui.theme.DarkYellow
 import com.roxx.grigarage.ui.theme.LocalSpacing

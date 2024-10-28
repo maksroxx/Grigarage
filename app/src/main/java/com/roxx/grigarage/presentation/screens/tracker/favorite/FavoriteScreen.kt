@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.roxx.grigarage.presentation.screens.onboarding.components.ActionButton
+import com.roxx.grigarage.presentation.components.ActionButton
 import com.roxx.grigarage.presentation.screens.tracker.components.BeerCard
 import com.roxx.grigarage.presentation.screens.tracker.components.ShimmerLoadingEffect
 import com.roxx.grigarage.presentation.util.UiEvent
