@@ -49,7 +49,7 @@ fun WeeklyBeerIntakeDialog(
                 value = viewModel.beerCount.value.toString(),
                 onValueChange = {
                     it.toIntOrNull()?.let { count ->
-                        viewModel.updateBeerCount(count)
+                        viewModel.onEvent(ProfileEvent.UpdateBeerCount(count))
                     }
                 },
                 label = { Text("Number of beers per week") },

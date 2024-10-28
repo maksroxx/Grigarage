@@ -95,7 +95,7 @@ fun CaptureScreen(
                 },
                 onDismiss = {
                     openWindow.value = false
-                    viewModel.onDismiss()
+                    viewModel.onEvent(CaptureEvent.OnDismiss)
                 }
             )
         }
@@ -103,15 +103,19 @@ fun CaptureScreen(
 
     if (addWindow.value) {
         BeerAddDialog(
-            onConfirm = { viewModel.onClick() },
-            onDismiss = { addWindow.value = false}
+            onConfirm = {
+                viewModel.onEvent(CaptureEvent.OnClick)
+            },
+            onDismiss = { addWindow.value = false }
         )
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         CameraPreview(controller.value)
         Text(
-            modifier = Modifier.fillMaxWidth().padding(top = LocalSpacing.current.small),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = LocalSpacing.current.small),
             text = "Track your beer",
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
@@ -124,7 +128,7 @@ fun CaptureScreen(
                 .size(48.dp)
                 .padding(bottom = 10.dp),
             onClick = {
-                viewModel.takePhoto()
+                viewModel.onEvent(CaptureEvent.TakePhoto)
                 openWindow.value = true
             }
         ) {

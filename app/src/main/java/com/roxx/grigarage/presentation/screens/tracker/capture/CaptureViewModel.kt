@@ -54,78 +54,82 @@ class CaptureViewModel @Inject constructor(
     var volume by mutableStateOf(0f)
         private set
 
-    var color by mutableStateOf("light")
+    var color by mutableStateOf("")
         private set
 
     var notes by mutableStateOf("")
         private set
 
-    fun onNameChange(newName: String) {
-        name = newName
-    }
+    fun onEvent(event: CaptureEvent) {
+        when (event) {
+            is CaptureEvent.OnAlcoholChange -> {
+                alcoholPercentage = event.newPercentage
+            }
 
-    fun onBrandChange(newBrand: String) {
-        brand = newBrand
-    }
+            is CaptureEvent.OnBrandChange -> {
+                brand = event.newBrand
+            }
 
-    fun onTypeChange(newType: String) {
-        type = newType
-    }
-
-    fun onAlcoholChange(newPercentage: Float) {
-        alcoholPercentage = newPercentage
-    }
-
-    fun onVolumeChange(newVolume: Float) {
-        volume = newVolume
-    }
-
-    fun onColorChange(newColor: String) {
-        color = newColor
-    }
-
-    fun onNotesChange(newNotes: String) {
-        notes = newNotes
-    }
-
-    fun takePhoto() {
-        takePhotoUseCase(
-            onPhotoTaken = { photo ->
-                _bitmap.value = photo
-            },
-            onError = {
+            is CaptureEvent.OnClick -> {
                 viewModelScope.launch {
-                    _uiEvent.send(UiEvent.ShowSnackbar(UiText.DynamicString("Something went wrong")))
-                    return@launch
+                    bitmap.value?.let { bitmapToBase64UseCase(it) }?.let {
+                        Beer(
+                            name = name,
+                            brand = brand,
+                            type = type,
+                            alcoholPercentage = alcoholPercentage,
+                            volume = volume,
+                            color = color,
+                            notes = notes,
+                            photoUri = it,
+                            dateAdded = Date.from(Instant.now()).time
+                        )
+                    }?.let {
+                        insertBeerUseCase(
+                            it
+                        )
+                    }
+                    _uiEvent.send(UiEvent.Navigate(Route.MAIN))
                 }
             }
-        )
-    }
 
-    fun onClick() {
-        viewModelScope.launch {
-            bitmap.value?.let { bitmapToBase64UseCase(it) }?.let {
-                Beer(
-                    name = name,
-                    brand = brand,
-                    type = type,
-                    alcoholPercentage = alcoholPercentage,
-                    volume = volume,
-                    color = color,
-                    notes = notes,
-                    photoUri = it,
-                    dateAdded = Date.from(Instant.now()).time
-                )
-            }?.let {
-                insertBeerUseCase(
-                    it
+            is CaptureEvent.OnColorChange -> {
+                color = event.newColor
+            }
+
+            is CaptureEvent.OnDismiss -> {
+                _bitmap.value = null
+            }
+
+            is CaptureEvent.OnNameChange -> {
+                name = event.newName
+            }
+
+            is CaptureEvent.OnNotesChange -> {
+                notes = event.newNotes
+            }
+
+            is CaptureEvent.OnTypeChange -> {
+                type = event.newType
+            }
+
+            is CaptureEvent.OnVolumeChange -> {
+                volume = event.newVolume
+            }
+
+            is CaptureEvent.TakePhoto -> {
+                takePhotoUseCase(
+                    onPhotoTaken = { photo ->
+                        _bitmap.value = photo
+                    },
+                    onError = {
+                        viewModelScope.launch {
+                            _uiEvent.send(UiEvent.ShowSnackbar(UiText.DynamicString("Something went wrong")))
+                            return@launch
+                        }
+                    }
                 )
             }
-            _uiEvent.send(UiEvent.Navigate(Route.MAIN))
         }
-    }
-
-    fun onDismiss() {
-        _bitmap.value = null
     }
 }

@@ -60,7 +60,7 @@ fun ProfileScreen(
                 showDialog = false
             },
             onConfirm = {
-                viewModel.updatedBeer()
+                viewModel.onEvent(ProfileEvent.UpdatedBeer)
                 showDialog = false
             }
         )
@@ -93,17 +93,18 @@ fun ProfileScreen(
                         .weight(1f)
                         .clip(RoundedCornerShape(20.dp))
                         .background(LightYellow)
+                        .padding(spacing.small)
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(top = spacing.small)
                             .align(Alignment.TopCenter),
+                        textAlign = TextAlign.Center,
                         text = "Total beer count"
                     )
                     Text(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .offset(y = 6.dp),
+                            .offset(y = 12.dp),
                         text = user?.totalBeerCount.toString(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 52.sp
@@ -115,17 +116,18 @@ fun ProfileScreen(
                         .weight(1f)
                         .clip(RoundedCornerShape(20.dp))
                         .background(LightYellow)
+                        .padding(spacing.small)
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(top = spacing.small)
                             .align(Alignment.TopCenter),
+                        textAlign = TextAlign.Center,
                         text = "Total bottle count"
                     )
                     Text(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .offset(y = 6.dp),
+                            .offset(y = 12.dp),
                         text = user?.totalBottleCount.toString(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 52.sp
@@ -163,20 +165,21 @@ fun ProfileScreen(
                         .weight(1f)
                         .clip(RoundedCornerShape(20.dp))
                         .background(LightYellow)
+                        .padding(spacing.small)
                         .clickable {
                             showDialog = true
                         }
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(top = spacing.small)
                             .align(Alignment.TopCenter),
+                        textAlign = TextAlign.Center,
                         text = "Weekly bottle goal"
                     )
                     Text(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .offset(y = 6.dp),
+                            .offset(y = 12.dp),
                         text = user?.weeklyGoal.toString(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 52.sp
@@ -188,17 +191,18 @@ fun ProfileScreen(
                         .weight(1f)
                         .clip(RoundedCornerShape(20.dp))
                         .background(LightYellow)
+                        .padding(spacing.small)
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(top = spacing.small)
                             .align(Alignment.TopCenter),
+                        textAlign = TextAlign.Center,
                         text = "Weekly bottle count"
                     )
                     Text(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .offset(y = 6.dp),
+                            .offset(y = 12.dp),
                         text = user?.currentWeekBeerCount.toString(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 52.sp
@@ -213,15 +217,15 @@ fun ProfileScreen(
                     .background(LightYellow)
                     .padding(spacing.small)
                     .clickable {
-                        viewModel.onClick()
+                        viewModel.onEvent(ProfileEvent.OnClick)
                     },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "See favorite beer",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 26.sp
                 )
                 Icon(
                     modifier = Modifier.size(32.dp),

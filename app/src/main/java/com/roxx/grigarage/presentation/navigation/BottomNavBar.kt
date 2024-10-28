@@ -26,6 +26,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.roxx.grigarage.ui.theme.LightYellow
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
@@ -43,7 +44,7 @@ fun BottomNavBar(navController: NavHostController) {
     if (shouldShowBottomBar) {
         Row(
             modifier = Modifier
-                .background(Color.Gray)
+                .background(LightYellow)
                 .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -69,7 +70,7 @@ fun RowScope.AddItem(
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
 
     val background =
-        if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f) else Color.Gray
+        if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f) else LightYellow
 
     val contentColor = if (selected) Color.White else Color.Black
 

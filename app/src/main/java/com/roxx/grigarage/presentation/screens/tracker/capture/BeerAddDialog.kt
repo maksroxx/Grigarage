@@ -44,7 +44,7 @@ fun BeerAddDialog(
 
             TextField(
                 value = viewModel.name.ifEmpty { "" },
-                onValueChange = { viewModel.onNameChange(it) },
+                onValueChange = { viewModel.onEvent(CaptureEvent.OnNameChange(it)) },
                 label = { Text("Name") },
                 placeholder = { Text("Enter beer name") },
                 singleLine = true
@@ -53,7 +53,7 @@ fun BeerAddDialog(
 
             TextField(
                 value = viewModel.brand.ifEmpty { "" },
-                onValueChange = { viewModel.onBrandChange(it) },
+                onValueChange = { viewModel.onEvent(CaptureEvent.OnBrandChange(it)) },
                 label = { Text("Brand") },
                 placeholder = { Text("Enter brand name") },
                 singleLine = true
@@ -62,7 +62,7 @@ fun BeerAddDialog(
 
             TextField(
                 value = viewModel.type.ifEmpty { "" },
-                onValueChange = { viewModel.onTypeChange(it) },
+                onValueChange = { viewModel.onEvent(CaptureEvent.OnTypeChange(it)) },
                 label = { Text("Type") },
                 placeholder = { Text("Enter type of beer") },
                 singleLine = true
@@ -74,7 +74,7 @@ fun BeerAddDialog(
                 onValueChange = {
                     it.toFloatOrNull()?.let { percentage ->
                         if (percentage in 0f..100f) {
-                            viewModel.onAlcoholChange(percentage)
+                            viewModel.onEvent(CaptureEvent.OnAlcoholChange(percentage))
                         }
                     }
                 },
@@ -89,7 +89,7 @@ fun BeerAddDialog(
                 value = viewModel.volume.takeIf { it > 0f }?.toString() ?: "",
                 onValueChange = {
                     it.toFloatOrNull()?.let { vol ->
-                        viewModel.onVolumeChange(vol)
+                        viewModel.onEvent(CaptureEvent.OnVolumeChange(vol))
                     }
                 },
                 label = { Text("Volume (ml)") },
@@ -101,7 +101,7 @@ fun BeerAddDialog(
 
             TextField(
                 value = viewModel.color.ifEmpty { "" },
-                onValueChange = { viewModel.onColorChange(it) },
+                onValueChange = { viewModel.onEvent(CaptureEvent.OnColorChange(it)) },
                 label = { Text("Color") },
                 placeholder = { Text("Beer color") },
                 singleLine = true
@@ -111,7 +111,7 @@ fun BeerAddDialog(
 
             TextField(
                 value = viewModel.notes.ifEmpty { "" },
-                onValueChange = { viewModel.onNotesChange(it) },
+                onValueChange = { viewModel.onEvent(CaptureEvent.OnNotesChange(it)) },
                 label = { Text("Notes") },
                 placeholder = { Text("Additional notes") },
                 singleLine = false

@@ -33,20 +33,22 @@ class ProfileViewModel @Inject constructor(
         loadLatestUser()
     }
 
-    fun onClick() {
-        viewModelScope.launch {
-            _uiEvent.send(UiEvent.Navigate(Route.FAVORITE))
+    fun onEvent(event: ProfileEvent) {
+        when (event) {
+            is ProfileEvent.OnClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(Route.FAVORITE))
+                }
+            }
+            is ProfileEvent.UpdateBeerCount -> {
+                beerCount.value = if (event.newCount >= 0) event.newCount else 0
+            }
+            is ProfileEvent.UpdatedBeer -> {
+                val goal = if (beerCount.value < 0) 10 else beerCount.value
+                setWeeklyGoalUseCase(goal)
+                loadLatestUser()
+            }
         }
-    }
-
-    fun updateBeerCount(newCount: Int) {
-        beerCount.value = if (newCount >= 0) newCount else 0
-    }
-
-    fun updatedBeer() {
-        val goal = if (beerCount.value < 0) 10 else beerCount.value
-        setWeeklyGoalUseCase(goal)
-        loadLatestUser()
     }
 
     private fun loadLatestUser() {
