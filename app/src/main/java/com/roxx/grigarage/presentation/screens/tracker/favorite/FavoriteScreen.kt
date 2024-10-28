@@ -69,7 +69,7 @@ fun FavoriteScreen(
                 Spacer(modifier = Modifier.height(LocalSpacing.current.large))
                 ActionButton(
                     text = "explore beers",
-                    onClick = { viewModel.onButtonClick() }
+                    onClick = { viewModel.onEvent(FavoriteEvent.OnButtonClick) }
                 )
             }
         } else {
@@ -81,7 +81,7 @@ fun FavoriteScreen(
                         IconButton(
                             modifier = Modifier.align(Alignment.CenterStart),
                             onClick = {
-                                viewModel.onBackArrowClicked()
+                                viewModel.onEvent(FavoriteEvent.OnArrowClick)
                             }
                         ) {
                             Icon(
@@ -103,8 +103,8 @@ fun FavoriteScreen(
                     if (beer != null) {
                         BeerCard(
                             beer = beer,
-                            onClick = { viewModel.onBeerClicked() },
-                            onLiked = { viewModel.onBeerLiked(beer) }
+                            onClick = { viewModel.onEvent(FavoriteEvent.OnBeerClick(beer.id)) },
+                            onLiked = { viewModel.onEvent(FavoriteEvent.OnBeerLiked(beer)) }
                         )
                     }
                 }

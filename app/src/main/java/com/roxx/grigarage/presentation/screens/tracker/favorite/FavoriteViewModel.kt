@@ -49,27 +49,28 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
-    fun onBeerClicked() {
-        viewModelScope.launch {
-            _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
-        }
-    }
-
-    fun onBackArrowClicked() {
-        viewModelScope.launch {
-            _uiEvent.send(UiEvent.Navigate(Route.PROFILE))
-        }
-    }
-
-    fun onButtonClick() {
-        viewModelScope.launch {
-            _uiEvent.send(UiEvent.Navigate(Route.MAIN))
-        }
-    }
-
-    fun onBeerLiked(beer: BeerUiModel) {
-        viewModelScope.launch {
-            updateBeerUseCase(beer.toBeer(imageToString(beer.photoUri.asAndroidBitmap())))
+    fun onEvent(event: FavoriteEvent) {
+        when (event) {
+            is FavoriteEvent.OnArrowClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(Route.PROFILE))
+                }
+            }
+            is FavoriteEvent.OnBeerClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
+                }
+            }
+            is FavoriteEvent.OnBeerLiked -> {
+                viewModelScope.launch {
+                    updateBeerUseCase(event.beer.toBeer(imageToString(event.beer.photoUri.asAndroidBitmap())))
+                }
+            }
+            is FavoriteEvent.OnButtonClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(Route.MAIN))
+                }
+            }
         }
     }
 }

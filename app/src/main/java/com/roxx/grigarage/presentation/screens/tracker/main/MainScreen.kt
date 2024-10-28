@@ -1,8 +1,12 @@
 package com.roxx.grigarage.presentation.screens.tracker.main
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -17,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.roxx.grigarage.presentation.screens.onboarding.components.ActionButton
 import com.roxx.grigarage.presentation.screens.tracker.components.BeerCard
 import com.roxx.grigarage.presentation.screens.tracker.components.ShimmerLoadingEffect
 import com.roxx.grigarage.presentation.util.UiEvent
@@ -43,13 +48,23 @@ fun MainScreen(
             ShimmerLoadingEffect()
         }
         else if (beerList.itemCount == 0 && beerList.loadState.append.endOfPaginationReached) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = "Beers list empty :(",
-                color = Color.Black,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Beers list empty :(",
+                    color = Color.Black,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(modifier = Modifier.height(LocalSpacing.current.large))
+                ActionButton(
+                    text = "explore beers",
+                    onClick = { viewModel.onEvent(MainEvent.OnButtonClick) }
+                )
+            }
         }
         else {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -67,8 +82,8 @@ fun MainScreen(
                     if (beer != null) {
                         BeerCard(
                             beer = beer,
-                            onClick = { viewModel.onBeerClicked() },
-                            onLiked = { viewModel.onBeerLiked(beer) }
+                            onClick = { viewModel.onEvent(MainEvent.OnBeerClick(beer.id)) },
+                            onLiked = { viewModel.onEvent(MainEvent.OnBeerLiked(beer)) }
                         )
                     }
                 }

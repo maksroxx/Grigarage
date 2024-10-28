@@ -36,6 +36,9 @@ class MainViewModel @Inject constructor(
     private val _beers = MutableStateFlow<PagingData<BeerUiModel>>(PagingData.empty())
     val beers: StateFlow<PagingData<BeerUiModel>> = _beers
 
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     init {
         preferences.saveShouldShowOnboarding(false)
 
@@ -43,26 +46,32 @@ class MainViewModel @Inject constructor(
             getAllBeersUseCase.invoke()
                 .cachedIn(viewModelScope)
                 .collectLatest { pagingData ->
-                _beers.value = pagingData.map { beer ->
-                    beer.toBeerUiModel(baseToBitmap(beer.photoUri))
+                    _beers.value = pagingData.map { beer ->
+                        beer.toBeerUiModel(baseToBitmap(beer.photoUri))
+                    }
+                }
+        }
+    }
+
+    fun onEvent(event: MainEvent) {
+        when (event) {
+            is MainEvent.OnBeerClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
                 }
             }
-        }
-    }
 
+            is MainEvent.OnBeerLiked -> {
+                viewModelScope.launch {
+                    updateBeerUseCase(event.beer.toBeer(imageToString(event.beer.photoUri.asAndroidBitmap())))
+                }
+            }
 
-    private val _uiEvent = Channel<UiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
-
-    fun onBeerClicked() {
-        viewModelScope.launch {
-            _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
-        }
-    }
-
-    fun onBeerLiked(beer: BeerUiModel) {
-        viewModelScope.launch {
-            updateBeerUseCase(beer.toBeer(imageToString(beer.photoUri.asAndroidBitmap())))
+            is MainEvent.OnButtonClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(Route.CAPTURE))
+                }
+            }
         }
     }
 }
