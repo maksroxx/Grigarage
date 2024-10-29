@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxx.grigarage.domain.preferences.Preferences
 import com.roxx.grigarage.domain.use_cases.another.FilterOutDigit
 import com.roxx.grigarage.domain.use_cases.another.SetWeeklyGoalUseCase
 import com.roxx.grigarage.presentation.navigation.Route

@@ -75,8 +75,8 @@ fun AppNav() {
                             type = NavType.IntType
                         }
                     )
-                ) {
-                    val beerId = it.arguments?.getInt("id")!!
+                ) { args ->
+                    val beerId = args.arguments?.getInt("id")!!
                     DetailScreen(
                         onNavigateUp = {
                             navController.navigateUp()
