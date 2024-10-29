@@ -3,7 +3,6 @@ package com.roxx.grigarage.presentation.navigation
 object Route {
     const val LOGO = "logo"
     const val WELCOME = "welcome"
-    const val INFO = "info"
     const val NAME = "name"
     const val GOAL = "goal"
     const val MAIN = "main"

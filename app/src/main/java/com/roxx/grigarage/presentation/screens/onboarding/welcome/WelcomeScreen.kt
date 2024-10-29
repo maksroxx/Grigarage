@@ -3,6 +3,7 @@ package com.roxx.grigarage.presentation.screens.onboarding.welcome
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.roxx.grigarage.presentation.navigation.Route
+import com.roxx.grigarage.presentation.components.ActionButton
 import com.roxx.grigarage.presentation.util.UiEvent
 import com.roxx.grigarage.ui.theme.DarkYellow
 import com.roxx.grigarage.ui.theme.LocalSpacing
@@ -43,11 +44,10 @@ fun WelcomeScreen(
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.displaySmall
         )
-        SwipeWidget(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            onReady = {
-                viewModel.onNextClick()
-            }
+        ActionButton(
+            text = "Further",
+            onClick = viewModel::onNextClick,
+            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(0.6f)
         )
     }
 }
