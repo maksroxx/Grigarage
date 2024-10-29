@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.roxx.grigarage.data.local.model.BeerEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BeerDao {
@@ -26,7 +27,7 @@ interface BeerDao {
 
     // Получение пива по ID
     @Query("SELECT * FROM beers WHERE id = :beerId")
-    suspend fun getBeerById(beerId: Int): BeerEntity?
+    fun getBeerById(beerId: Int): Flow<BeerEntity?>
 
     // Увеличение счетчика выпитого пива на 1
     @Query("UPDATE beers SET drinkCount = drinkCount + 1 WHERE id = :beerId")

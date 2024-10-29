@@ -9,6 +9,8 @@ import com.roxx.grigarage.domain.use_cases.another.ConvertBase64ToImageBitmapUse
 import com.roxx.grigarage.domain.use_cases.another.ConvertBitmapToBase64UseCase
 import com.roxx.grigarage.domain.use_cases.another.FilterOutDigit
 import com.roxx.grigarage.domain.use_cases.another.FilterOutLetter
+import com.roxx.grigarage.domain.use_cases.another.LoadOnboardingStateUseCase
+import com.roxx.grigarage.domain.use_cases.another.SetOnboardingStateUseCase
 import com.roxx.grigarage.domain.use_cases.another.SetWeeklyGoalUseCase
 import com.roxx.grigarage.domain.use_cases.another.TakePhotoUseCase
 import com.roxx.grigarage.domain.use_cases.another.UserProfileUseCase
@@ -119,5 +121,17 @@ object UseCaseModule {
     @Singleton
     fun provideLikedBeers(beerRepository: BeerRepository): GetLikedBeerUseCase {
         return GetLikedBeerUseCase(beerRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOnboardingState(preferences: Preferences): LoadOnboardingStateUseCase {
+        return LoadOnboardingStateUseCase(preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSetOnboardingState(preferences: Preferences): SetOnboardingStateUseCase {
+        return SetOnboardingStateUseCase(preferences)
     }
 }

@@ -1,35 +1,34 @@
 package com.roxx.grigarage.presentation.screens.tracker.detail
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxx.grigarage.domain.use_cases.BeersUseCases
 import com.roxx.grigarage.domain.use_cases.another.ConvertBase64ToImageBitmapUseCase
 import com.roxx.grigarage.domain.use_cases.another.ConvertBitmapToBase64UseCase
-import com.roxx.grigarage.domain.use_cases.beers.UpdateBeerUseCase
-import com.roxx.grigarage.presentation.navigation.Route
 import com.roxx.grigarage.presentation.screens.tracker.BeerUiModel
 import com.roxx.grigarage.presentation.util.UiEvent
 import com.roxx.grigarage.presentation.util.toBeer
 import com.roxx.grigarage.presentation.util.toBeerUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val updateBeerUseCase: UpdateBeerUseCase,
     private val baseToBitmap: ConvertBase64ToImageBitmapUseCase,
     private val imageToString: ConvertBitmapToBase64UseCase,
     private val beersUseCases: BeersUseCases
 ) : ViewModel() {
 
-    private val _beer = mutableStateOf<BeerUiModel?>(null)
-    val beer: State<BeerUiModel?> = _beer
+    private val _beer = MutableStateFlow<BeerUiModel?>(null)
+    val beer: StateFlow<BeerUiModel?> = _beer.asStateFlow()
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -41,6 +40,7 @@ class DetailViewModel @Inject constructor(
                     beersUseCases.decrementDrinkCountUseCase(event.id)
                 }
             }
+
             is DetailEvent.DeleteBeer -> {
                 viewModelScope.launch {
                     _beer.value?.let {
@@ -48,28 +48,28 @@ class DetailViewModel @Inject constructor(
                             it.toBeer(imageToString(_beer.value!!.photoUri.asAndroidBitmap()))
                         )
                     }
-                    _uiEvent.send(UiEvent.Navigate(Route.MAIN))
+                    _uiEvent.send(UiEvent.NavigateUp)
                 }
             }
+
             is DetailEvent.Increment -> {
                 viewModelScope.launch {
                     beersUseCases.incrementDrinkCountUseCase(event.id)
                 }
             }
-            is DetailEvent.LikeBeer -> {
+
+            is DetailEvent.LoadBeer -> {
                 viewModelScope.launch {
-                    _beer.value?.let {
-                        updateBeerUseCase(
-                            it.toBeer(imageToString(_beer.value!!.photoUri.asAndroidBitmap()))
-                        )
+                    beersUseCases.getBeerByIdUseCase(event.id).collect { beer ->
+                        Log.d("Detail", "Load beer: ${beer?.id}")
+                        _beer.value = beer?.toBeerUiModel(baseToBitmap(beer.photoUri))
                     }
                 }
             }
-            is DetailEvent.LoadBeer -> {
+
+            is DetailEvent.GoBack -> {
                 viewModelScope.launch {
-                    _beer.value = beersUseCases.getBeerByIdUseCase(event.id).let { beer ->
-                        beer?.toBeerUiModel(baseToBitmap(beer.photoUri))
-                    }
+                    _uiEvent.send(UiEvent.NavigateUp)
                 }
             }
         }

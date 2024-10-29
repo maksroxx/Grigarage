@@ -54,9 +54,6 @@ class CaptureViewModel @Inject constructor(
     var volume by mutableStateOf(0f)
         private set
 
-    var color by mutableStateOf("")
-        private set
-
     var notes by mutableStateOf("")
         private set
 
@@ -79,7 +76,6 @@ class CaptureViewModel @Inject constructor(
                             type = type,
                             alcoholPercentage = alcoholPercentage,
                             volume = volume,
-                            color = color,
                             notes = notes,
                             photoUri = it,
                             dateAdded = Date.from(Instant.now()).time
@@ -91,10 +87,6 @@ class CaptureViewModel @Inject constructor(
                     }
                     _uiEvent.send(UiEvent.Navigate(Route.MAIN))
                 }
-            }
-
-            is CaptureEvent.OnColorChange -> {
-                color = event.newColor
             }
 
             is CaptureEvent.OnDismiss -> {

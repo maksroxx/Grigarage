@@ -6,7 +6,6 @@ sealed class CaptureEvent {
     data class OnTypeChange(val newType: String): CaptureEvent()
     data class OnAlcoholChange(val newPercentage: Float): CaptureEvent()
     data class OnVolumeChange(val newVolume: Float): CaptureEvent()
-    data class OnColorChange(val newColor: String): CaptureEvent()
     data class OnNotesChange(val newNotes: String): CaptureEvent()
     object TakePhoto: CaptureEvent()
     object OnClick: CaptureEvent()

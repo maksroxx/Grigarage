@@ -15,6 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.roxx.grigarage.presentation.screens.onboarding.goal.GoalScreen
 import com.roxx.grigarage.presentation.screens.onboarding.info.InfoScreen
+import com.roxx.grigarage.presentation.screens.onboarding.logo.LogoScreen
 import com.roxx.grigarage.presentation.screens.onboarding.name.NameScreen
 import com.roxx.grigarage.presentation.screens.onboarding.welcome.WelcomeScreen
 import com.roxx.grigarage.presentation.screens.tracker.capture.CaptureScreen
@@ -41,8 +42,13 @@ fun AppNav() {
             NavHost(
                 modifier = Modifier.padding(it),
                 navController = navController,
-                startDestination = Route.MAIN
+                startDestination = Route.LOGO
             ) {
+                composable(Route.LOGO) {
+                    LogoScreen(
+                        navController::navigate
+                    )
+                }
                 composable(Route.WELCOME) {
                     WelcomeScreen(navController::navigate)
                 }
@@ -74,9 +80,12 @@ fun AppNav() {
                         }
                     )
                 ) {
+                    val beerId = it.arguments?.getInt("id")!!
                     DetailScreen(
-                        navController::navigate,
-                        id = id
+                        onNavigateUp = {
+                            navController.navigateUp()
+                        },
+                        id = beerId
                     )
                 }
                 composable(Route.CAPTURE) {

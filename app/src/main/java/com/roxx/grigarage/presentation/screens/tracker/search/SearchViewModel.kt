@@ -61,7 +61,7 @@ class SearchViewModel @Inject constructor(
 
             is SearchEvent.OnBeerClick -> {
                 viewModelScope.launch {
-                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
+                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL + "/${event.id}"))
                 }
             }
 

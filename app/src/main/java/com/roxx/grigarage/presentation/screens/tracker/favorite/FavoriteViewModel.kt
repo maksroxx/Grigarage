@@ -58,7 +58,7 @@ class FavoriteViewModel @Inject constructor(
             }
             is FavoriteEvent.OnBeerClick -> {
                 viewModelScope.launch {
-                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
+                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL + "/${event.id}"))
                 }
             }
             is FavoriteEvent.OnBeerLiked -> {

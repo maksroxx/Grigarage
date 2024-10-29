@@ -9,7 +9,6 @@ data class BeerUiModel(
     val type: String = "",
     val alcoholPercentage: Float = 0f,
     val volume: Float = 0f,
-    val color: String = "",
     val rating: Float = 0f,
     val notes: String = "",
     val photoUri: ImageBitmap,

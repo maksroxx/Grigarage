@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.roxx.grigarage.domain.preferences.Preferences
 import com.roxx.grigarage.domain.use_cases.another.ConvertBase64ToImageBitmapUseCase
 import com.roxx.grigarage.domain.use_cases.another.ConvertBitmapToBase64UseCase
+import com.roxx.grigarage.domain.use_cases.another.SetOnboardingStateUseCase
 import com.roxx.grigarage.domain.use_cases.beers.GetAllBeersUseCase
 import com.roxx.grigarage.domain.use_cases.beers.UpdateBeerUseCase
 import com.roxx.grigarage.presentation.navigation.Route
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    preferences: Preferences,
+    setOnboardingStateUseCase: SetOnboardingStateUseCase,
     private val getAllBeersUseCase: GetAllBeersUseCase,
     private val updateBeerUseCase: UpdateBeerUseCase,
     private val baseToBitmap: ConvertBase64ToImageBitmapUseCase,
@@ -40,7 +40,7 @@ class MainViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        preferences.saveShouldShowOnboarding(false)
+        setOnboardingStateUseCase(false)
 
         viewModelScope.launch {
             getAllBeersUseCase.invoke()
@@ -57,7 +57,7 @@ class MainViewModel @Inject constructor(
         when (event) {
             is MainEvent.OnBeerClick -> {
                 viewModelScope.launch {
-                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL))
+                    _uiEvent.send(UiEvent.Navigate(Route.DETAIL + "/${event.id}"))
                 }
             }
 

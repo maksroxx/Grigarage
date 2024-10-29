@@ -9,7 +9,7 @@ interface BeerRepository {
     suspend fun insertBeer(beer: Beer)
     suspend fun updateBeer(beer: Beer)
     suspend fun deleteBeer(beer: Beer)
-    suspend fun getBeerById(beerId: Int): Beer?
+    suspend fun getBeerById(beerId: Int): Flow<Beer?>
     suspend fun incrementDrinkCount(beerId: Int)
     suspend fun decrementDrinkCount(beerId: Int)
     suspend fun getMostPopularBeer(): Beer?

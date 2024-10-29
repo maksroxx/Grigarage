@@ -8,6 +8,6 @@ class DecrementDrinkCountUseCase(private val beerRepository: BeerRepository, pri
     suspend operator fun invoke(beerId: Int) {
         val bottles = preferences.getCurrentWeekBeerCount().dec()
         preferences.setCurrentWeekBeerCount(bottles)
-        beerRepository.incrementDrinkCount(beerId)
+        beerRepository.decrementDrinkCount(beerId)
     }
 }

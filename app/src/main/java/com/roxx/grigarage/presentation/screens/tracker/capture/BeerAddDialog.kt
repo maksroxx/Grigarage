@@ -100,16 +100,6 @@ fun BeerAddDialog(
             Spacer(modifier = Modifier.height(8.dp))
 
             TextField(
-                value = viewModel.color.ifEmpty { "" },
-                onValueChange = { viewModel.onEvent(CaptureEvent.OnColorChange(it)) },
-                label = { Text("Color") },
-                placeholder = { Text("Beer color") },
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
                 value = viewModel.notes.ifEmpty { "" },
                 onValueChange = { viewModel.onEvent(CaptureEvent.OnNotesChange(it)) },
                 label = { Text("Notes") },

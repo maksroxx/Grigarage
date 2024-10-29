@@ -11,6 +11,7 @@ import com.roxx.grigarage.data.mapper.toDomainModel
 import com.roxx.grigarage.domain.model.Beer
 import com.roxx.grigarage.domain.repository.BeerRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -32,8 +33,10 @@ class BeerRepositoryImpl @Inject constructor(
         db.deleteBeer(beer.toBeerEntity())
     }
 
-    override suspend fun getBeerById(beerId: Int): Beer? {
-        return db.getBeerById(beerId)?.toDomainModel()
+    override suspend fun getBeerById(beerId: Int): Flow<Beer?> {
+        return db.getBeerById(beerId).map { beerEntity ->
+            beerEntity?.toDomainModel()
+        }
     }
 
     override suspend fun incrementDrinkCount(beerId: Int) {
