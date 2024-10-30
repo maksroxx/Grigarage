@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +34,7 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val beerList = viewModel.beers.collectAsLazyPagingItems()
+    val listState = rememberLazyListState()
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -43,11 +45,12 @@ fun MainScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize().padding(LocalSpacing.current.small)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(LocalSpacing.current.small)) {
         if (beerList.loadState.refresh is LoadState.Loading) {
             ShimmerLoadingEffect()
-        }
-        else if (beerList.itemCount == 0 && beerList.loadState.append.endOfPaginationReached) {
+        } else if (beerList.itemCount == 0 && beerList.loadState.append.endOfPaginationReached) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -65,9 +68,8 @@ fun MainScreen(
                     onClick = { viewModel.onEvent(MainEvent.OnButtonClick) }
                 )
             }
-        }
-        else {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+        } else {
+            LazyColumn(modifier = Modifier.fillMaxSize(), state = listState) {
                 item {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
@@ -77,7 +79,13 @@ fun MainScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-                items(beerList.itemCount) { index ->
+                items(
+                    count = beerList.itemCount,
+                    key = { index ->
+                        val beer = beerList[index]
+                        beer?.id ?: index
+                    }
+                ) { index ->
                     val beer = beerList[index]
                     if (beer != null) {
                         BeerCard(

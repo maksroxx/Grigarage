@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -37,6 +38,7 @@ fun FavoriteScreen(
     viewModel: FavoriteViewModel = hiltViewModel()
 ) {
     val beerList = viewModel.beers.collectAsLazyPagingItems()
+    val listState = rememberLazyListState()
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -73,7 +75,7 @@ fun FavoriteScreen(
                 )
             }
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.fillMaxSize(), state = listState) {
                 item {
                     Box(
                         modifier = Modifier.fillMaxWidth()
@@ -98,7 +100,13 @@ fun FavoriteScreen(
                         )
                     }
                 }
-                items(beerList.itemCount) { index ->
+                items(
+                    count = beerList.itemCount,
+                    key = { index ->
+                        val beer = beerList[index]
+                        beer?.id ?: index
+                    }
+                ) { index ->
                     val beer = beerList[index]
                     if (beer != null) {
                         BeerCard(

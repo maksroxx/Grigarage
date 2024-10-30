@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +30,7 @@ fun SearchScreen(
 ) {
     val state = viewModel.state
     val beerList = viewModel.beers.collectAsLazyPagingItems()
+    val listState = rememberLazyListState()
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -39,7 +41,9 @@ fun SearchScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize().padding(LocalSpacing.current.small)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(LocalSpacing.current.small)) {
         Column(modifier = Modifier.fillMaxSize()) {
             SearchTextField(
                 text = state.query,
@@ -68,8 +72,14 @@ fun SearchScreen(
                     )
                 }
             } else {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(beerList.itemCount) { index ->
+                LazyColumn(modifier = Modifier.fillMaxSize(), state = listState) {
+                    items(
+                        count = beerList.itemCount,
+                        key = { index ->
+                            val beer = beerList[index]
+                            beer?.id ?: index
+                        }
+                    ) { index ->
                         val beer = beerList[index]
                         if (beer != null) {
                             BeerCard(
