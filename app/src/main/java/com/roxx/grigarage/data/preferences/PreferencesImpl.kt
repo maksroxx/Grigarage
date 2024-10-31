@@ -21,7 +21,7 @@ class PreferencesImpl(
     }
 
     override fun getTotalBottleCount(): Int {
-        return sharedPreferences.getInt(KEY_TOTAL_BEER_COUNT, 0)
+        return sharedPreferences.getInt(KEY_TOTAL_BOTTLE_COUNT, 0)
     }
 
     override fun getWeeklyGoal(): Int {

@@ -11,12 +11,12 @@ class UserProfileUseCase(
 
     suspend operator fun invoke(): UserProfile {
         val totalBeerCount = beerRepository.getTotalBeerCount() ?: 0
-        val totalBottleCount = beerRepository.getTotalBottleCount() ?: 0
+        val totalBottleCount = beerRepository.getTotalBottleCount() ?: 199
         val mostPopularBeer = beerRepository.getMostPopularBeer()?.name ?: "Unknown"
         val weeklyBottleCount = preferences.getCurrentWeekBeerCount()
 
-        preferences.setTotalBeerCount(totalBeerCount)
         preferences.setTotalBottleCount(totalBottleCount)
+        preferences.setTotalBeerCount(totalBeerCount)
         preferences.setMostPopularBeer(mostPopularBeer)
 
         return UserProfile(
