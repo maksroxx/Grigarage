@@ -13,7 +13,7 @@ class PreferencesImpl(
     private val sharedPreferences: SharedPreferences
 ) : Preferences {
     override fun getUserName(): String {
-        return sharedPreferences.getString(KEY_USER_NAME, "bob")!!
+        return sharedPreferences.getString(KEY_USER_NAME, "bob") ?: "bob"
     }
 
     override fun getTotalBeerCount(): Int {
@@ -33,7 +33,7 @@ class PreferencesImpl(
     }
 
     override fun getMostPopularBeer(): String {
-        return sharedPreferences.getString(KEY_MOST_POPULAR_BEER, "Bud")!!
+        return sharedPreferences.getString(KEY_MOST_POPULAR_BEER, "Bud") ?: "Bud"
     }
 
     override fun setUserName(name: String) {

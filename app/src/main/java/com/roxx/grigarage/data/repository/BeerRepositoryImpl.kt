@@ -11,7 +11,6 @@ import com.roxx.grigarage.data.mapper.toDomainModel
 import com.roxx.grigarage.domain.model.Beer
 import com.roxx.grigarage.domain.repository.BeerRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

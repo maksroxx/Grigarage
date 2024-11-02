@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.roxx.grigarage.domain.alarm.AlarmScheduler
-import com.roxx.grigarage.infrastructure.alarm.AndroidAlarmScheduler
 import com.roxx.grigarage.presentation.navigation.AppNav
 import com.roxx.grigarage.ui.theme.GrigarageTheme
 import dagger.hilt.android.AndroidEntryPoint

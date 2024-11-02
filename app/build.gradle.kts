@@ -82,6 +82,10 @@ dependencies {
     implementation(libs.camera.view)
     implementation(libs.camera.extensions)
 
+    //mock
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+
     // Icons
     implementation(libs.androidx.material.icons.extended)
 

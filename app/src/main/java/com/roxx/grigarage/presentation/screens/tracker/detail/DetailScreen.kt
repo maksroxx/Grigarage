@@ -82,14 +82,14 @@ fun DetailScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(spacing.medium))
-
         beer?.let {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
+                Spacer(modifier = Modifier.height(spacing.large))
+
                 // Beer Image
                 Image(
                     bitmap = it.photoUri,

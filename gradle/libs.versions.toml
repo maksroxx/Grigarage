@@ -16,7 +16,8 @@ paging = "3.3.0"
 datastorePref = "1.1.1"
 coil = "2.5.0"
 cameraX = "1.5.0-alpha01"
-icons = "1.7.3"
+mockk = "1.13.12"
+mockkAndroid = "1.13.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,8 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 androidx-paging-compose = {module = "androidx.paging:paging-compose", version.ref = "paging"}
 androidx-paging-runtime = {module = "androidx.paging:paging-runtime", version.ref = "paging"}
 androidx-datastore-preferences = {module = "androidx.datastore:datastore-preferences", version.ref = "datastorePref"}
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroid" }
 camera-core = {module = "androidx.camera:camera-core", version.ref = "cameraX"}
 camera-camera = {module = "androidx.camera:camera-camera2", version.ref = "cameraX"}
 camera-lifecycle = {module = "androidx.camera:camera-lifecycle", version.ref = "cameraX"}
