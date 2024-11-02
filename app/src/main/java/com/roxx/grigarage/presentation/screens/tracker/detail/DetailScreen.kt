@@ -82,7 +82,7 @@ fun DetailScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(spacing.small))
+        Spacer(modifier = Modifier.height(spacing.medium))
 
         beer?.let {
             Column(
