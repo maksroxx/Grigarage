@@ -25,7 +25,6 @@ class BeerRepositoryImpl @Inject constructor(
         val updatedFavoriteStatus = !beer.isFavorite
         val updatedBeerEntity = beer.toBeerEntity().copy(isFavorite = updatedFavoriteStatus)
         db.updateBeer(updatedBeerEntity)
-        Log.d("Update", "Updated favorite status for ${updatedBeerEntity.id}: ${updatedFavoriteStatus}")
     }
 
     override suspend fun deleteBeer(beer: Beer) {
@@ -64,7 +63,6 @@ class BeerRepositoryImpl @Inject constructor(
             pagingSourceFactory = { db.searchPagedBeers(query.lowercase()) }
         ).flow.map { pagingData ->
             pagingData.map { beerEntity ->
-                Log.d("Search", "search: ${beerEntity.id}")
                 beerEntity.toDomainModel()
             }
         }
