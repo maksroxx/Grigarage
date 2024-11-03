@@ -24,5 +24,6 @@ class MainActivity : ComponentActivity() {
         }
 
         alarmScheduler.schedule()
+        alarmScheduler.setupDailyNotification()
     }
 }
